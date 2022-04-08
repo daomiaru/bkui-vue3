@@ -398,6 +398,15 @@ const routes: RouteRecordRaw[] = [
     },
   },
   {
+	  path: '/sideslider',
+	  name: 'sideslider',
+	  component: () => import('../views/sideslider'),
+	  meta: {
+	    group: NavGroupMeta.Feedback,
+	    navName: 'Sideslider 侧边栏',
+	  },
+  },
+  {
     path: '/virtual-render',
     name: 'virtualRender',
     component: () => import('../views/virtual-render'),

@@ -45,4 +45,16 @@ export const propsMixin = {
     type: Boolean,
     default: true,
   },
+  extCls: {
+    type: String,
+    default: '',
+  },
+  title: {
+    type: String,
+    default: '',
+  },
+  showMask: {
+    type: Boolean,
+    default: true,
+  },
 };

@@ -65,17 +65,17 @@ export default defineComponent({
     const dialogSlot = {
       header: () => <>
         <div class="bk-sideslider-header">
-          <span class={`bk-sideslider-close ${this.direction}`} onClick={this.handleClose}></span>
-          <span class={`bk-sideslider-title ${this.direction}`}>
-            {this.$slots.header?.() ?? 'Header'}
-          </span>
+          <div class={`bk-sideslider-close ${this.direction}`} onClick={this.handleClose}></div>
+          <div class={`bk-sideslider-title ${this.direction}`}>
+            {this.$slots.header?.() ?? this.title}
+          </div>
         </div>
       </>,
       default: () => this.$slots.default?.() ?? 'Content',
       footer: () => <div class="bk-sideslider-footer"></div>,
     };
 
-    const className = `bk-sideslider-wrapper ${this.scrollable ? 'scroll-able' : ''}`;
+    const className = `bk-sideslider-wrapper ${this.scrollable ? 'scroll-able' : ''} ${this.extCls}`;
     return <BkModal {...this.$props} class={className} style={`${this.direction}: 0`}>
       {dialogSlot}
     </BkModal>;

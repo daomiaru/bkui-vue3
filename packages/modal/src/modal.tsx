@@ -59,6 +59,7 @@ export default defineComponent({
     isShow: {
       handler(val: boolean) {
         this.visible = val;
+        console.log(this.$el);
       },
     },
     visible(val: boolean) {
