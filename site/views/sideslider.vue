@@ -13,6 +13,7 @@
       :show-mask="true"
       :scrollable="true"
       :quick-close="true"
+      :transfer="true"
       @hidden="handleHidden"
       @shown="handleShown"
     >

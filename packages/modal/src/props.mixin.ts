@@ -69,4 +69,8 @@ export const propsMixin = {
     type: String,
     default: '',
   },
+  transfer: {
+    type: Boolean,
+    default: false,
+  },
 };

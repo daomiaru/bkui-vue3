@@ -67,13 +67,12 @@ export default defineComponent({
           const hideMaskStyle = {
             'background-color': 'rgba(0,0,0,0)',
           };
-
           const appendStyle = this.showMask ? {} : hideMaskStyle;
-          bkPopIndexManager.show(this.$el, this.showMask, appendStyle);
+          bkPopIndexManager.show(this.$el, this.showMask, appendStyle, this.transfer);
           this.$emit('shown');
         });
       } else {
-        bkPopIndexManager.hide(this.$el);
+        bkPopIndexManager.hide(this.$el, this.transfer);
         this.$emit('hidden');
       }
     },
