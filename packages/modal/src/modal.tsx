@@ -59,7 +59,6 @@ export default defineComponent({
     isShow: {
       handler(val: boolean) {
         this.visible = val;
-        console.log(this.$el);
       },
     },
     visible(val: boolean) {
@@ -71,9 +70,11 @@ export default defineComponent({
 
           const appendStyle = this.showMask ? {} : hideMaskStyle;
           bkPopIndexManager.show(this.$el, this.showMask, appendStyle);
+          this.$emit('shown');
         });
       } else {
         bkPopIndexManager.hide(this.$el);
+        this.$emit('hidden');
       }
     },
   },
@@ -81,20 +82,21 @@ export default defineComponent({
     bkPopIndexManager.hide(this.$el);
   },
   render() {
+    const maxHeight = this.maxHeight ? { maxHeight: this.maxHeight } : {};
     return (
       <div class={['bk-modal-wrapper', ...this.customClass]} style={this.compStyle}>
         {this.isShow ? (
-          <div class="bk-modal-body">
-            <div class="bk-modal-header">
-              {this.$slots.header?.() ?? ''}
+            <div className="bk-modal-body">
+              <div className="bk-modal-header">
+                {this.$slots.header?.() ?? ''}
+              </div>
+              <div className="bk-modal-content" style={{ ...maxHeight }}>
+                {this.$slots.default?.() ?? ''}
+              </div>
+              <div className="bk-modal-footer">
+                {this.$slots.footer?.() ?? ''}
+              </div>
             </div>
-            <div class="bk-modal-content">
-              {this.$slots.default?.() ?? ''}
-            </div>
-            <div class="bk-modal-footer">
-              {this.$slots.footer?.() ?? ''}
-            </div>
-          </div>
         ) : (
           ''
         )}

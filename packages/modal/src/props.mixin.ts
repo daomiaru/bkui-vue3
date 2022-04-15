@@ -51,10 +51,22 @@ export const propsMixin = {
   },
   title: {
     type: String,
-    default: '',
+    default: 'Header',
   },
   showMask: {
     type: Boolean,
     default: true,
+  },
+  quickClose: {
+    type: Boolean,
+    default: true,
+  },
+  beforeClose: {
+    type: Function,
+    default: () => true,
+  },
+  maxHeight: {
+    type: String,
+    default: '',
   },
 };

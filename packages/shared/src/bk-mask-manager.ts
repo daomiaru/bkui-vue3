@@ -131,7 +131,6 @@ export class BkMaskManager {
     this.mask.style.setProperty('display', 'block');
     this.mask.style.setProperty('z-index', `${localZIndex}`);
     this.backupMask.style.setProperty('z-index', `${localZIndex - 1}`);
-
     if (content) {
       this.activeInstance = content;
       this.appendContentToMask(content);

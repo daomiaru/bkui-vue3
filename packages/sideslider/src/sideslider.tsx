@@ -53,14 +53,25 @@ export default defineComponent({
       },
     },
   },
-  emits: ['closed', 'update:isShow'],
+  emits: ['closed', 'update:isShow', 'shown', 'hidden'],
   methods: {
-    handleClose() {
-      this.$emit('update:isShow', false);
-      this.$emit('closed');
+    async handleClose() {
+      let shouldClose = true;
+      if (typeof this.beforeClose === 'function') {
+        shouldClose = await this.beforeClose();
+      }
+      if (shouldClose) {
+        this.$emit('update:isShow', false);
+        this.$emit('closed');
+      }
+    },
+    handleShown() {
+      this.$emit('shown');
+    },
+    handleHidden() {
+      this.$emit('hidden');
     },
   },
-
   render() {
     const dialogSlot = {
       header: () => <>
@@ -72,11 +83,14 @@ export default defineComponent({
         </div>
       </>,
       default: () => this.$slots.default?.() ?? 'Content',
-      footer: () => <div class="bk-sideslider-footer"></div>,
+      footer: () => <div class="bk-sideslider-footer">
+        {this.$slots.footer?.() ?? ''}
+      </div>,
     };
 
     const className = `bk-sideslider-wrapper ${this.scrollable ? 'scroll-able' : ''} ${this.extCls}`;
-    return <BkModal {...this.$props} class={className} style={`${this.direction}: 0`}>
+    const maxHeight = this.$slots.footer ? 'calc(100vh - 114px)' : 'calc(100vh - 60px)';
+    return <BkModal {...this.$props} maxHeight={maxHeight} class={className} style={`${this.direction}: 0`} onHidden={this.handleHidden} onShown={this.handleShown}>
       {dialogSlot}
     </BkModal>;
   },

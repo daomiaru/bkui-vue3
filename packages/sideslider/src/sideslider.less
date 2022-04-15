@@ -1,8 +1,63 @@
 @import '@bkui-vue/styles/themes/themes.less';
 
+.bk-sideslider {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+/* fade-center */
+
+/* slide */
+.slide-enter-active,
+.slide-leave-active {
+  .bk-modal-body {
+    transform: translateX(0);
+    transition: transform .25s;
+  }
+}
+
+.slide-enter-active {
+  animation: slider-fade-in .25s;
+}
+
+.slide-leave-active {
+  animation: slider-fade-in .25s reverse;
+}
+
+.slide-enter-from,
+.slide-leave-to {
+  .bk-modal-body {
+    transform: translateX(100%);
+    transition: transform .25s;
+
+    &.left {
+      transform: translateX(-100%);
+      transition: transform .25s;
+    }
+
+    &.right {
+      transform: translateX(100%);
+      transition: transform .25s;
+    }
+  }
+}
+
+@keyframes slider-fade-in {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
 .bk-modal-wrapper {
   &.bk-sideslider-wrapper {
-    position: fixed;
+    position: absolute;
     top: 0;
     bottom: 0;
     left: auto;
@@ -82,5 +137,15 @@
         }
       }
     }
+
+    .bk-sideslider-footer {
+      display: flex;
+      width: 100%;
+      height: 54px;
+      background: #fff;
+      border-top: 1px solid transparent;
+      align-items: center;
+    }
   }
 }
+

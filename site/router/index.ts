@@ -410,7 +410,7 @@ const routes: RouteRecordRaw[] = [
   {
 	  path: '/sideslider',
 	  name: 'sideslider',
-	  component: () => import('../views/sideslider'),
+	  component: () => import('../views/sideslider.vue'),
 	  meta: {
 	    group: NavGroupMeta.Feedback,
 	    navName: 'Sideslider 侧边栏',

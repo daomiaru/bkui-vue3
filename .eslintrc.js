@@ -92,5 +92,6 @@ module.exports = {
         ignoreTemplateLiterals: true,
       },
     ],
+    'vue/no-v-model-argument': 'off',
   },
 };
