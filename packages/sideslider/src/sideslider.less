@@ -13,10 +13,8 @@
 /* slide过渡动画 */
 .slide-enter-active,
 .slide-leave-active {
-  .bk-modal-body {
-    transform: translateX(0);
-    transition: transform .25s;
-  }
+  transform: translateX(0);
+  transition: transform .25s;
 }
 
 .slide-enter-active {
@@ -29,19 +27,14 @@
 
 .slide-enter-from,
 .slide-leave-to {
-  .bk-modal-body {
+  &.left {
+    transform: translateX(-100%);
+    transition: transform .25s;
+  }
+
+  &.right {
     transform: translateX(100%);
     transition: transform .25s;
-
-    &.left {
-      transform: translateX(-100%);
-      transition: transform .25s;
-    }
-
-    &.right {
-      transform: translateX(100%);
-      transition: transform .25s;
-    }
   }
 }
 
@@ -61,9 +54,9 @@
     top: 0;
     bottom: 0;
     left: auto;
-    background: #fff;
+    //background: #fff;
     transform: initial;
-    box-shadow: -5px 0 8px -5px rgb(0 0 0 / 20%);
+    //box-shadow: -5px 0 8px -5px rgb(0 0 0 / 20%);
 
     &.scroll-able {
       .bk-modal-content {

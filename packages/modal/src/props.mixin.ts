@@ -65,12 +65,20 @@ export const propsMixin = {
     type: Function,
     default: () => true,
   },
-  maxHeight: {
+  maxHeight: { // 内容区最大高度
     type: String,
     default: '',
   },
-  transfer: {
+  transfer: { // 是否显示在body内（即与id#app同级），默认同级
     type: Boolean,
     default: false,
+  },
+  direction: {
+    type: String,
+    default: '',
+  },
+  animateType: { // 动画类型
+    type: String,
+    default: 'slide',
   },
 };

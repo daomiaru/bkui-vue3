@@ -136,7 +136,7 @@ export class BkMaskManager {
     this.mask.style.setProperty('z-index', `${localZIndex}`);
     this.backupMask.style.setProperty('z-index', `${localZIndex - 1}`);
     if (content) {
-      if (transfer) content.style.setProperty('z-index', `${localZIndex + 1}`); // 表明内容不在遮罩下，z-index + 1
+      if (transfer) content.style.setProperty('z-index', `${localZIndex + 1}`); // 表明内容不在遮罩下，内容区z-index + 1
       this.activeInstance = content;
       if (!transfer) this.appendContentToMask(content); // 表明内容在body下，即在遮罩下
     }

@@ -24,7 +24,7 @@
  * IN THE SOFTWARE.
 */
 
-import { defineComponent } from 'vue';
+import { defineComponent, Transition } from 'vue';
 import { bkPopIndexManager } from '@bkui-vue/shared';
 import { propsMixin } from './props.mixin';
 
@@ -46,7 +46,6 @@ export default defineComponent({
     dialogHeight(): String | Number {
       return /^\d+$/.test(`${this.height}`) ? `${this.height}px` : this.height;
     },
-
     compStyle(): any {
       return {
         width: this.dialogWidth,
@@ -58,8 +57,16 @@ export default defineComponent({
   watch: {
     isShow: {
       handler(val: boolean) {
-        this.visible = val;
+        if (val) {
+          this.visible = val;
+        } else {
+          this.$emit('hidden'); // 为false直接触发hidden事件，在上层有200ms的延时
+          setTimeout(() => { // 直接设为false会失去离开的动画效果，这里延迟设置
+            this.visible = val;
+          }, 250);
+        }
       },
+      deep: true,
     },
     visible(val: boolean) {
       if (val) {
@@ -73,7 +80,6 @@ export default defineComponent({
         });
       } else {
         bkPopIndexManager.hide(this.$el, this.transfer);
-        this.$emit('hidden');
       }
     },
   },
@@ -82,10 +88,12 @@ export default defineComponent({
   },
   render() {
     const maxHeight = this.maxHeight ? { maxHeight: this.maxHeight } : {};
+    const bodyClass = `bk-modal-body ${this.direction}`;
     return (
       <div class={['bk-modal-wrapper', ...this.customClass]} style={this.compStyle}>
-        {this.isShow ? (
-            <div className="bk-modal-body">
+        <Transition name={this.animateType}>
+          {this.isShow ? (
+            <div className={bodyClass}>
               <div className="bk-modal-header">
                 {this.$slots.header?.() ?? ''}
               </div>
@@ -96,9 +104,8 @@ export default defineComponent({
                 {this.$slots.footer?.() ?? ''}
               </div>
             </div>
-        ) : (
-          ''
-        )}
+          ) : ''}
+        </Transition>
       </div>
     );
   },

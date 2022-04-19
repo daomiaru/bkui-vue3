@@ -37,7 +37,7 @@ describe('BkButton.tsx', () => {
         default: label,
       },
     });
-
+    console.log(wrapper);
     expect(wrapper.text()).toMatch(label);
     expect(wrapper.classes()).toContain('bk-button');
   });

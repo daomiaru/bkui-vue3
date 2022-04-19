@@ -14,6 +14,7 @@
       :scrollable="true"
       :quick-close="true"
       :transfer="true"
+      @animation-end="handleAnimationEnd"
       @hidden="handleHidden"
       @shown="handleShown"
     >
@@ -60,11 +61,15 @@ export default {
     const handleShown = () => {
       console.log('显示后触发');
     };
+    const handleAnimationEnd = () => {
+      console.log('动画结束后触发');
+    };
     return {
       handleOpenSlider,
       handleCloseBefore,
       handleHidden,
       handleShown,
+      handleAnimationEnd,
       isShow,
     };
   },

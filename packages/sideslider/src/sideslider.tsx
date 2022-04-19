@@ -53,45 +53,51 @@ export default defineComponent({
       },
     },
   },
-  emits: ['closed', 'update:isShow', 'shown', 'hidden'],
-  methods: {
-    async handleClose() {
+  emits: ['closed', 'update:isShow', 'shown', 'hidden', 'animation-end'],
+  setup(props, { slots, emit }) {
+    const handleClose = async () => {
       let shouldClose = true;
-      if (typeof this.beforeClose === 'function') {
-        shouldClose = await this.beforeClose();
+      if (typeof props.beforeClose === 'function') {
+        shouldClose = await props.beforeClose();
       }
       if (shouldClose) {
-        this.$emit('update:isShow', false);
-        this.$emit('closed');
+        emit('update:isShow', false);
+        emit('closed');
+        setTimeout(() => { // 有动画，推迟发布事件
+          emit('animation-end');
+        }, 250);
       }
-    },
-    handleShown() {
-      this.$emit('shown');
-    },
-    handleHidden() {
-      this.$emit('hidden');
-    },
-  },
-  render() {
-    const dialogSlot = {
-      header: () => <>
-        <div class="bk-sideslider-header">
-          <div class={`bk-sideslider-close ${this.direction}`} onClick={this.handleClose}></div>
-          <div class={`bk-sideslider-title ${this.direction}`}>
-            {this.$slots.header?.() ?? this.title}
-          </div>
-        </div>
-      </>,
-      default: () => this.$slots.default?.() ?? 'Content',
-      footer: () => <div class="bk-sideslider-footer">
-        {this.$slots.footer?.() ?? ''}
-      </div>,
     };
-
-    const className = `bk-sideslider-wrapper ${this.scrollable ? 'scroll-able' : ''} ${this.extCls}`;
-    const maxHeight = this.$slots.footer ? 'calc(100vh - 114px)' : 'calc(100vh - 60px)';
-    return <BkModal {...this.$props} maxHeight={maxHeight} class={className} style={`${this.direction}: 0`} onHidden={this.handleHidden} onShown={this.handleShown}>
-      {dialogSlot}
-    </BkModal>;
+    const handleShown = () => { // 有动画，推迟发布事件
+      setTimeout(() => {
+        emit('shown');
+      }, 200);
+    };
+    const handleHidden = () => { // 有动画，推迟发布事件
+      setTimeout(() => {
+        emit('hidden');
+      }, 200);
+    };
+    return () => {
+      const dialogSlot = {
+        header: () => <>
+          <div class="bk-sideslider-header">
+            <div class={`bk-sideslider-close ${props.direction}`} onClick={handleClose}></div>
+            <div class={`bk-sideslider-title ${props.direction}`}>
+              {slots.header?.() ?? props.title}
+            </div>
+          </div>
+        </>,
+        default: () => slots.default?.() ?? 'Content',
+        footer: () => <div class="bk-sideslider-footer">
+          {slots.footer?.() ?? ''}
+        </div>,
+      };
+      const className = `bk-sideslider-wrapper ${props.scrollable ? 'scroll-able' : ''} ${props.extCls}`;
+      const maxHeight = slots.footer ? 'calc(100vh - 114px)' : 'calc(100vh - 60px)';
+      return <BkModal {...props} maxHeight={maxHeight} class={className} style={`${props.direction}: 0;`} onHidden={handleHidden} onShown={handleShown}>
+        {dialogSlot}
+      </BkModal>;
+    };
   },
 });
